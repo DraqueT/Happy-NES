@@ -24,6 +24,7 @@ public class HappiCore {
     private final NesHeader header;
     private final int[] rawFile;
     private int[] systemMemory;
+    private int[] chrMemory;
     private final int resetLocation;
     private final int nmiAddress;
     private final int irqAddress;
@@ -63,8 +64,9 @@ public class HappiCore {
     }
     
     private void loadSystemMemory(int[] rawData) {
-        var systemMemorySize = 0x10000 + header.getChrSizeBytes();
+        var systemMemorySize = 0x10000 + header.getPrgSizeBytes();
         systemMemory = new int[systemMemorySize];
+        chrMemory = new int[header.getChrSizeBytes()];
         
         int prgEnd = HEADER_SIZE + header.getPrgSizeBytes();
         int locationOffset = -HEADER_SIZE + PRG_START_LOC;
@@ -74,6 +76,7 @@ public class HappiCore {
             systemMemory[location + locationOffset] = rawData[location];
         }
         
+        // single bank memory is mirrored for some damned reason
         if (header.getPrgBlocks() == 1) {
             locationOffset = -HEADER_SIZE + SINGLE_BANK_MIRROR_LOC;
             for (int location = HEADER_SIZE; location < prgEnd; location++) {
@@ -81,7 +84,13 @@ public class HappiCore {
             }
         }
         
-        // TODO: Copy in CHA data
+        for (int location = 0; location < + header.getChrSizeBytes(); location++) {
+            chrMemory[location] = rawData[location + prgEnd];
+        }
+    }
+    
+    public int[] getChrMemory() {
+        return chrMemory;
     }
     
     public void parseData() throws Exception {
