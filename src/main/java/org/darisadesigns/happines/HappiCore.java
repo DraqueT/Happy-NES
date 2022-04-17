@@ -32,7 +32,7 @@ public class HappiCore {
     
     public static void main(String[] Args) {
         try {
-            var core = new HappiCore("/Users/draque/NetBeansProjects/dk.nes");
+            var core = new HappiCore("/Users/draque/NetBeansProjects/DWIV.nes");
             core.parseData();
         } catch (Exception e) {
             System.out.println("What a butt you are.");
@@ -71,7 +71,7 @@ public class HappiCore {
         int prgEnd = HEADER_SIZE + header.getPrgSizeBytes();
         int locationOffset = -HEADER_SIZE + PRG_START_LOC;
         
-        // TODO: Handle when there are more than 2 banks (need too switch in and out)
+        // TODO: Handle when there are more than 2 banks (need to switch in and out)
         for (int location = HEADER_SIZE; location < prgEnd; location++) {
             systemMemory[location + locationOffset] = rawData[location];
         }

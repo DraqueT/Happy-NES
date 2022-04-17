@@ -5,6 +5,7 @@
 package org.darisadesigns.happines.Graphics;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
@@ -13,6 +14,7 @@ import javax.swing.JPanel;
  * @author draque
  */
 public class TilePanel extends JPanel {
+    public final static int PREFERRED_DIM = 45;
     public final static int TILE_SIZE = 8; // in pixels
     public final static int TILE_DATA_SIZE = TILE_SIZE * 2; // in bytes
     private int[] data;
@@ -25,9 +27,12 @@ public class TilePanel extends JPanel {
         data = new int[TILE_DATA_SIZE];
         
         color0 = new Color(0, 0, 0);
-        color1 = new Color(83, 83, 83);
-        color2 = new Color(166, 166, 166);
+        color1 = new Color(255, 127, 0);
+        color2 = new Color(0, 255, 0);
         color3 = new Color(255, 255, 255);
+        
+        setPreferredSize(new Dimension(PREFERRED_DIM, PREFERRED_DIM));
+        setSize(new Dimension(PREFERRED_DIM, PREFERRED_DIM));
     }
     
     public void setData(int[] _data) throws Exception {
@@ -47,11 +52,11 @@ public class TilePanel extends JPanel {
         
         for (int y = 0; y < TILE_SIZE; y++) {
             for (int x = 0; x < TILE_SIZE; x++) {
-                int xPos = x * pixelWidth;
+                int xPos = ((TILE_SIZE - 1) - x) * pixelWidth; // prevent mirroring of pixels
                 int yPos = y * pixelHeight;
                 
                 g.setColor(getColor(x, y));
-                g.fillRect(xPos, yPos, pixelWidth - 2, pixelHeight - 2);
+                g.fillRect(xPos, yPos, pixelWidth - 1, pixelHeight - 1);
             }
         }
     }

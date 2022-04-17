@@ -23,7 +23,7 @@ public class TileForm extends javax.swing.JFrame {
         tilePosition = 0;
         
         try {
-            core = new HappiCore("/Users/draque/NetBeansProjects/smb.nes");
+            core = new HappiCore("/Users/draque/NetBeansProjects/dk.nes");
         } catch (Exception e) {
             System.out.println("Y'all fucked up: " + e.getMessage());
             e.printStackTrace();
